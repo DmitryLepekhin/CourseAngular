@@ -8,14 +8,23 @@ export class DishService {
   constructor() { }
 
   getDishes(): Promise<Dish[]> {
-    return Promise.resolve(DISHES);
+    return this.delayPromise(DISHES);
+     //return this.delayPromise(resolve => resolve(DISHES));
   }
 
   getDish(id: number): Promise<Dish> {
-    return Promise.resolve(DISHES.filter((dish) => (dish.id === id))[0]);
+    return this.delayPromise(
+      DISHES.filter((dish) => (dish.id === id))[0]
+    );
   }
 
   getFeaturedDish(): Promise<Dish> {
-    return Promise.resolve(DISHES.filter((dish) => dish.featured)[0]);
+    return this.delayPromise(
+      DISHES.filter((dish) => dish.featured)[0]
+    );
+  }
+
+  delayPromise(action) {
+    return new Promise(resolve => setTimeout(() => resolve(action), 2000));
   }
 }
